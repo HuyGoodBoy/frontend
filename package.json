@@ -19,6 +19,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
+    "deploy": "powershell -Command \"New-Item -ItemType Directory -Force -Path 'deploy'; Copy-Item -Path 'index.html' -Destination 'deploy/'; Copy-Item -Path 'manifest.json' -Destination 'deploy/'; Copy-Item -Path 'config.js' -Destination 'deploy/'; Copy-Item -Path '.nojekyll' -Destination 'deploy/'; Copy-Item -Path 'build/static' -Destination 'deploy/' -Recurse -Force\"",
     "deploy-manual": "powershell -Command \"New-Item -ItemType Directory -Force -Path 'deploy'; Copy-Item -Path 'index.html' -Destination 'deploy/'; Copy-Item -Path 'manifest.json' -Destination 'deploy/'; Copy-Item -Path 'config.js' -Destination 'deploy/'; Copy-Item -Path '.nojekyll' -Destination 'deploy/'; Copy-Item -Path 'build/static/js/*' -Destination 'deploy/' -Recurse -Force\""
   },
   "eslintConfig": {

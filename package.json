@@ -1,8 +1,8 @@
 {
   "name": "cv-evaluator-frontend",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "./",
+  "private": false,
+  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -17,7 +17,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy-manual": "powershell -Command \"New-Item -ItemType Directory -Force -Path 'deploy'; Copy-Item -Path 'index.html' -Destination 'deploy/'; Copy-Item -Path 'manifest.json' -Destination 'deploy/'; Copy-Item -Path 'config.js' -Destination 'deploy/'; Copy-Item -Path '.nojekyll' -Destination 'deploy/'; Copy-Item -Path 'build/static/js/*' -Destination 'deploy/' -Recurse -Force\""
   },
   "eslintConfig": {
     "extends": [

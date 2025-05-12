@@ -48,12 +48,15 @@ const getPublicUrl = () => {
 // Modern friendly styles
 const GradientBg = styled('div')(() => ({
   minHeight: '100vh',
-  width: '100vw',
+  width: '100%',
+  maxWidth: '100%',
+  overflow: 'hidden',
   background: 'linear-gradient(90deg, #e0f7fa 0%, #e3f0ff 100%)',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
+  padding: '20px',
 }));
 
 const CenteredContainer = styled(Container)(({ theme }) => ({
@@ -64,6 +67,8 @@ const CenteredContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(6),
   marginBottom: theme.spacing(6),
   maxWidth: 900,
+  width: '100%',
+  overflowX: 'hidden',
 }));
 
 const UploadBox = styled(Paper)(({ theme }) => ({
@@ -356,6 +361,10 @@ function App() {
     document.body.style.backgroundPosition = "center";
     document.body.style.backgroundRepeat = "no-repeat";
     document.body.style.minHeight = "100vh";
+    document.body.style.margin = "0";
+    document.body.style.padding = "0";
+    document.body.style.overflow = "auto";
+    document.body.style.width = "100%";
     return () => {
       document.body.style.backgroundImage = '';
       document.body.style.backgroundSize = '';
@@ -363,6 +372,10 @@ function App() {
       document.body.style.backgroundRepeat = '';
       document.body.style.minHeight = '';
       document.body.style.backgroundColor = '';
+      document.body.style.margin = '';
+      document.body.style.padding = '';
+      document.body.style.overflow = '';
+      document.body.style.width = '';
     };
   }, []);
 
@@ -397,8 +410,8 @@ function App() {
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>
-        <Grid container spacing={4} alignItems="flex-start">
-          <Grid item xs={12} md={6}>
+        <Grid container spacing={4} alignItems="flex-start" sx={{ width: '100%', mx: 0 }}>
+          <Grid item xs={12} sm={12} md={6}>
             <UploadBox
               onDrop={handleDrop}
               onDragOver={handleDragOver}
@@ -508,7 +521,7 @@ function App() {
               </Typography>
             )}
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={12} md={6}>
             <Paper sx={{ p: 3, background: 'rgba(232,245,253,0.7)', borderRadius: 4, boxShadow: '0 2px 8px rgba(33,150,243,0.07)' }}>
               <Typography variant="h6" gutterBottom sx={{ color: '#1976d2', fontWeight: 'bold' }}>
                 Hướng dẫn sử dụng

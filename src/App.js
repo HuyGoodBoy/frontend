@@ -179,7 +179,13 @@ function App() {
     }
     try {
       const endpoint = feature === 'cv-info' ? 'evaluate-cv' : 'evaluate-job-compatibility';
-      const response = await fetch(`http://localhost:8000/${endpoint}`, {
+      // Get the API URL from various sources in order of priority
+      const apiBaseUrl = (window.APP_CONFIG && window.APP_CONFIG.API_URL) || 
+                         window.API_URL || 
+                         process.env.REACT_APP_API_URL || 
+                         'https://cv.tdconsulting.vn';
+      
+      const response = await fetch(`${apiBaseUrl}/${endpoint}`, {
         method: 'POST',
         body: formData,
         headers: {

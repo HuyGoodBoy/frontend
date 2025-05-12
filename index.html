@@ -4,9 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#1976d2" />
     <title>CV Evaluator - Đánh giá CV tự động</title>
     <link rel="icon" href="./favicon.ico">
+    <link rel="manifest" href="./manifest.json" crossorigin="use-credentials" />
     <meta name="description" content="Hệ thống đánh giá CV tự động giúp bạn đánh giá CV và mức độ phù hợp với mô tả công việc">
+    
+    <!-- Configuration scripts -->
+    <script>
+    // Application configuration
+    window.APP_CONFIG = {
+      // Backend API URL
+      API_URL: 'https://cv.tdconsulting.vn',
+      
+      // Application version
+      VERSION: '1.0.0',
+      
+      // Environment
+      ENV: 'production'
+    }; 
+    </script>
     
     <style>
         body {
@@ -20,12 +37,15 @@
             background: linear-gradient(90deg, #e0f7fa 0%, #e3f0ff 100%);
             text-align: center;
         }
-        .container {
+        .splash-container {
             max-width: 600px;
             padding: 30px;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         h1 {
             color: #1976d2;
@@ -53,15 +73,16 @@
             background: linear-gradient(90deg, #1565c0 0%, #42a5f5 100%);
             box-shadow: 0 4px 12px rgba(33,150,243,0.25);
         }
+        #app-container {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+        }
     </style>
-    
-    <!-- Load React app -->
-    <script>
-        window.API_URL = "https://cv.tdconsulting.vn";
-    </script>
 </head>
 <body>
-    <div class="container">
+    <!-- Splash screen -->
+    <div class="splash-container" id="splash-screen">
         <h1>Đánh Giá CV Ứng Viên</h1>
         <p>Hệ thống đánh giá CV tự động sử dụng AI để phân tích CV của bạn và đánh giá mức độ phù hợp với mô tả công việc.</p>
         <p>Dịch vụ này giúp bạn:</p>
@@ -71,23 +92,23 @@
             <li>Đánh giá mức độ phù hợp với công việc</li>
             <li>Nhận phản hồi chi tiết và lý do đánh giá</li>
         </ul>
-        <a href="./index.html" class="btn" id="appLink">Sử dụng ngay</a>
+        <button class="btn" id="startApp">Sử dụng ngay</button>
     </div>
     
+    <!-- React app root -->
+    <div id="root" style="width: 100%;"></div>
+    
     <script>
-        // Update app link based on deployment context
-        document.addEventListener('DOMContentLoaded', function() {
-            const hostname = window.location.hostname;
-            const appLink = document.getElementById('appLink');
-            
-            if (hostname.includes('github.io') || hostname.includes('huygoodboy.io.vn')) {
-                // GitHub Pages or custom domain deployment
-                appLink.href = './index.html';
-            } else {
-                // Local development
-                appLink.href = './build/index.html';
-            }
+        document.getElementById('startApp').addEventListener('click', function() {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('root').style.display = 'block';
+            document.body.style.display = 'block';
+            document.body.style.justifyContent = 'flex-start';
+            document.body.style.alignItems = 'flex-start';
         });
     </script>
+    
+    <!-- Load React app bundle -->
+    <script src="./build/static/js/main.aa36f196.js"></script>
 </body>
 </html> 

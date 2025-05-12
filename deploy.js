@@ -15,6 +15,33 @@ fs.copyFileSync(
   path.join(buildDir, 'index.html')
 );
 
+// Create a config.js file in the build folder with the API URL
+console.log('Creating config.js in build folder...');
+const configContent = `// Application configuration
+window.APP_CONFIG = {
+  // Backend API URL
+  API_URL: 'https://cv.tdconsulting.vn',
+  
+  // Application version
+  VERSION: '1.0.0',
+  
+  // Environment
+  ENV: 'production'
+};`;
+
+fs.writeFileSync(path.join(buildDir, 'config.js'), configContent);
+
+// Create a basic logo for manifest requirements
+console.log('Creating placeholder logo192.png in build folder...');
+try {
+  if (!fs.existsSync(path.join(__dirname, 'public', 'logo192.png'))) {
+    // Create a simple placeholder logo file to avoid 404 errors
+    execSync(`copy "${path.join(__dirname, 'public', 'favicon.ico')}" "${path.join(__dirname, 'public', 'logo192.png')}"`, { stdio: 'inherit' });
+  }
+} catch (error) {
+  console.error('Warning: Could not create logo file:', error);
+}
+
 // Build the React app
 console.log('Building React app...');
 try {

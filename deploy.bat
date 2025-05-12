@@ -25,7 +25,7 @@ xcopy build C:\temp\gh-deploy /E /I /Y
 rem Deploy from temp directory
 echo Deploying from temporary directory...
 cd C:\temp\gh-deploy
-call npx gh-pages -d . -b gh-pages -r https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+call npx gh-pages -d . -b gh-pages
 
 rem Clean up
 echo Cleaning up...

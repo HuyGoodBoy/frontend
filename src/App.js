@@ -33,6 +33,18 @@ import {
   Work as WorkIcon,
 } from '@mui/icons-material';
 
+// Determine the public URL based on where the app is running
+const getPublicUrl = () => {
+  // GitHub Pages or custom domain deployment
+  if (window.location.hostname.includes('github.io') || 
+      window.location.hostname.includes('huygoodboy.io.vn')) {
+    return '.';
+  }
+  
+  // Local development
+  return process.env.PUBLIC_URL || '';
+};
+
 // Modern friendly styles
 const GradientBg = styled('div')(() => ({
   minHeight: '100vh',
@@ -179,11 +191,24 @@ function App() {
     }
     try {
       const endpoint = feature === 'cv-info' ? 'evaluate-cv' : 'evaluate-job-compatibility';
-      // Get the API URL from various sources in order of priority
-      const apiBaseUrl = (window.APP_CONFIG && window.APP_CONFIG.API_URL) || 
-                         window.API_URL || 
-                         process.env.REACT_APP_API_URL || 
-                         'https://cv.tdconsulting.vn';
+      
+      // Determine the correct API URL
+      let apiBaseUrl;
+      if (window.APP_CONFIG && window.APP_CONFIG.API_URL) {
+        apiBaseUrl = window.APP_CONFIG.API_URL;
+      } else if (window.API_URL) {
+        apiBaseUrl = window.API_URL;
+      } else if (process.env.REACT_APP_API_URL) {
+        apiBaseUrl = process.env.REACT_APP_API_URL;
+      } else {
+        // Default API URL
+        apiBaseUrl = 'https://cv.tdconsulting.vn';
+      }
+      
+      // Remove trailing slash if present
+      apiBaseUrl = apiBaseUrl.endsWith('/') ? apiBaseUrl.slice(0, -1) : apiBaseUrl;
+      
+      console.log(`Connecting to API at: ${apiBaseUrl}/${endpoint}`);
       
       const response = await fetch(`${apiBaseUrl}/${endpoint}`, {
         method: 'POST',
@@ -192,13 +217,22 @@ function App() {
           'Accept': 'application/json',
         },
       });
+      
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Lỗi khi xử lý yêu cầu');
+        let errorMessage;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.detail || `Lỗi khi xử lý yêu cầu (${response.status})`;
+        } catch (e) {
+          errorMessage = `Lỗi kết nối đến máy chủ (${response.status})`;
+        }
+        throw new Error(errorMessage);
       }
+      
       const data = await response.json();
       setResult(data);
     } catch (err) {
+      console.error('API Error:', err);
       setError(err.message);
     } finally {
       setLoading(false);

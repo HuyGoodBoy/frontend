@@ -71,15 +71,23 @@
             <li>Đánh giá mức độ phù hợp với công việc</li>
             <li>Nhận phản hồi chi tiết và lý do đánh giá</li>
         </ul>
-        <a href="./build/index.html" class="btn">Sử dụng ngay</a>
+        <a href="./index.html" class="btn" id="appLink">Sử dụng ngay</a>
     </div>
     
     <script>
-        // Detect if the page is being served from GitHub Pages
-        if (window.location.hostname.indexOf('github.io') !== -1) {
-            // Set up correct path for GitHub Pages
-            document.querySelector('.btn').href = './index.html';
-        }
+        // Update app link based on deployment context
+        document.addEventListener('DOMContentLoaded', function() {
+            const hostname = window.location.hostname;
+            const appLink = document.getElementById('appLink');
+            
+            if (hostname.includes('github.io') || hostname.includes('huygoodboy.io.vn')) {
+                // GitHub Pages or custom domain deployment
+                appLink.href = './index.html';
+            } else {
+                // Local development
+                appLink.href = './build/index.html';
+            }
+        });
     </script>
 </body>
 </html> 

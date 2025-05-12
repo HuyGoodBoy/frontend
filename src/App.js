@@ -31,6 +31,7 @@ import {
   StarHalf as StarHalfIcon,
   Description as DescriptionIcon,
   Work as WorkIcon,
+  ArrowForward as ArrowForwardIcon,
 } from '@mui/icons-material';
 
 // Determine the public URL based on where the app is running
@@ -69,6 +70,20 @@ const CenteredContainer = styled(Container)(({ theme }) => ({
   maxWidth: 900,
   width: '100%',
   overflowX: 'hidden',
+}));
+
+const IntroContainer = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  justifyContent: 'center',
+  height: '100vh',
+  width: '100%',
+  maxWidth: '100%',
+  background: 'linear-gradient(135deg, #42a5f5 0%, #1976d2 100%)',
+  color: 'white',
+  padding: '2rem',
+  boxSizing: 'border-box',
 }));
 
 const UploadBox = styled(Paper)(({ theme }) => ({
@@ -112,6 +127,73 @@ const CustomChip = styled(Chip)(({ theme, type }) => ({
   },
 }));
 
+const ActionButton = styled(Button)(({ theme }) => ({
+  background: 'linear-gradient(90deg, #ffffff 0%, #e3f2fd 100%)',
+  color: '#1976d2',
+  fontWeight: 'bold',
+  padding: '12px 24px',
+  borderRadius: '8px',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+  margin: '20px 0',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    background: 'white',
+    boxShadow: '0 6px 14px rgba(0,0,0,0.15)',
+    transform: 'translateY(-2px)',
+  },
+}));
+
+// Introduction Page Component
+const IntroPage = ({ navigateToApp }) => {
+  return (
+    <IntroContainer>
+      <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 4 }}>
+        Đánh Giá CV Ứng Viên
+      </Typography>
+      <Typography variant="h5" sx={{ mb: 3, maxWidth: '700px' }}>
+        Hệ thống đánh giá CV tự động sử dụng AI để phân tích CV của bạn và đánh giá mức độ phù hợp với mô tả công việc.
+      </Typography>
+      <Typography variant="h6" sx={{ mb: 2 }}>
+        Dịch vụ này giúp bạn:
+      </Typography>
+      <List sx={{ mb: 4, maxWidth: '600px' }}>
+        <ListItem>
+          <ListItemIcon>
+            <CheckIcon sx={{ color: 'white' }} />
+          </ListItemIcon>
+          <ListItemText primary="Trích xuất thông tin từ CV" primaryTypographyProps={{ color: 'white' }} />
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <CheckIcon sx={{ color: 'white' }} />
+          </ListItemIcon>
+          <ListItemText primary="Phát hiện thông tin còn thiếu" primaryTypographyProps={{ color: 'white' }} />
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <CheckIcon sx={{ color: 'white' }} />
+          </ListItemIcon>
+          <ListItemText primary="Đánh giá mức độ phù hợp với công việc" primaryTypographyProps={{ color: 'white' }} />
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <CheckIcon sx={{ color: 'white' }} />
+          </ListItemIcon>
+          <ListItemText primary="Nhận phản hồi chi tiết và lý do đánh giá" primaryTypographyProps={{ color: 'white' }} />
+        </ListItem>
+      </List>
+      <ActionButton 
+        variant="contained" 
+        size="large" 
+        endIcon={<ArrowForwardIcon />}
+        onClick={navigateToApp}
+      >
+        Sử dụng ngay
+      </ActionButton>
+    </IntroContainer>
+  );
+};
+
 function App() {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -121,6 +203,32 @@ function App() {
   const [jobDescription, setJobDescription] = useState('');
   const [jobDescriptionFile, setJobDescriptionFile] = useState(null);
   const [jobDescriptionType, setJobDescriptionType] = useState('text'); // 'text' or 'file'
+  const [currentPage, setCurrentPage] = useState('intro'); // 'intro' or 'app'
+
+  // Handle navigation from intro to app
+  const navigateToApp = () => {
+    window.history.pushState({}, '', window.location.pathname + '#/work');
+    setCurrentPage('app');
+  };
+
+  // Check for URL path on load
+  useEffect(() => {
+    if (window.location.hash === '#/work') {
+      setCurrentPage('app');
+    }
+
+    // Listen for hash changes
+    const handleHashChange = () => {
+      if (window.location.hash === '#/work') {
+        setCurrentPage('app');
+      } else {
+        setCurrentPage('intro');
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const handleFeatureChange = (event, newFeature) => {
     if (newFeature !== null) {
@@ -356,15 +464,22 @@ function App() {
 
   // Set background image for the whole page
   useEffect(() => {
-    document.body.style.backgroundImage = "url('https://tdconsulting.vn/wp-content/themes/tdconsulting/images/bg-home.jpg')";
-    document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "center";
-    document.body.style.backgroundRepeat = "no-repeat";
+    if (currentPage === 'app') {
+      document.body.style.backgroundImage = "url('https://tdconsulting.vn/wp-content/themes/tdconsulting/images/bg-home.jpg')";
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
+      document.body.style.backgroundRepeat = "no-repeat";
+    } else {
+      document.body.style.backgroundImage = "none";
+      document.body.style.backgroundColor = "#42a5f5";
+    }
+    
     document.body.style.minHeight = "100vh";
     document.body.style.margin = "0";
     document.body.style.padding = "0";
     document.body.style.overflow = "auto";
     document.body.style.width = "100%";
+    
     return () => {
       document.body.style.backgroundImage = '';
       document.body.style.backgroundSize = '';
@@ -377,8 +492,14 @@ function App() {
       document.body.style.overflow = '';
       document.body.style.width = '';
     };
-  }, []);
+  }, [currentPage]);
 
+  // Render the appropriate page based on currentPage state
+  if (currentPage === 'intro') {
+    return <IntroPage navigateToApp={navigateToApp} />;
+  }
+
+  // Main App UI
   return (
     <GradientBg>
       <CenteredContainer>

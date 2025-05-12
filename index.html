@@ -43,89 +43,10 @@
       ENV: 'production'
     }; 
     </script>
-    
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(90deg, #e0f7fa 0%, #e3f0ff 100%);
-            text-align: center;
-        }
-        .splash-container {
-            max-width: 600px;
-            padding: 30px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        h1 {
-            color: #1976d2;
-            margin-bottom: 20px;
-        }
-        p {
-            color: #333;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        .btn {
-            display: inline-block;
-            background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        .btn:hover {
-            background: linear-gradient(90deg, #1565c0 0%, #42a5f5 100%);
-            box-shadow: 0 4px 12px rgba(33,150,243,0.25);
-        }
-        #app-container {
-            display: none;
-            width: 100%;
-            min-height: 100vh;
-        }
-    </style>
 </head>
 <body>
-    <!-- Splash screen -->
-    <div class="splash-container" id="splash-screen">
-        <h1>Đánh Giá CV Ứng Viên</h1>
-        <p>Hệ thống đánh giá CV tự động sử dụng AI để phân tích CV của bạn và đánh giá mức độ phù hợp với mô tả công việc.</p>
-        <p>Dịch vụ này giúp bạn:</p>
-        <ul style="text-align: left;">
-            <li>Trích xuất thông tin từ CV</li>
-            <li>Phát hiện thông tin còn thiếu</li>
-            <li>Đánh giá mức độ phù hợp với công việc</li>
-            <li>Nhận phản hồi chi tiết và lý do đánh giá</li>
-        </ul>
-        <button class="btn" id="startApp">Sử dụng ngay</button>
-    </div>
-    
     <!-- React app root -->
     <div id="root" style="width: 100%;"></div>
-    
-    <script>
-        document.getElementById('startApp').addEventListener('click', function() {
-            document.getElementById('splash-screen').style.display = 'none';
-            document.getElementById('root').style.display = 'block';
-            document.body.style.display = 'block';
-            document.body.style.justifyContent = 'flex-start';
-            document.body.style.alignItems = 'flex-start';
-        });
-    </script>
     
     <!-- Load React app bundle -->
     <script src="./static/js/main.aa36f196.js"></script>
